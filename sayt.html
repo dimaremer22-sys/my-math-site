@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ОГЭ Математика | Подготовка</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Светлая тема */
+            --bg-color: #f1f5f9;
+            --text-color: #1e293b;
+            --text-muted: #64748b;
+            --glass-bg: rgba(255, 255, 255, 0.6);
+            --glass-border: rgba(255, 255, 255, 0.8);
+            --glass-shadow: 0 8px 32px rgba(31, 38, 135, 0.07);
+            --accent: #8b5cf6;
+            --accent-hover: #7c3aed;
+            --secondary: #3b82f6;
+            --success: #10b981;
+            --error: #ef4444;
+            --grid-color: rgba(15, 23, 42, 0.04);
+            --blob-1: #c084fc;
+            --blob-2: #60a5fa;
+            --blob-3: #f472b6;
+        }
+
+        [data-theme="dark"] {
+            /* Темная тема */
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --text-muted: #94a3b8;
+            --glass-bg: rgba(30, 41, 59, 0.6);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            --accent: #a78bfa;
+            --accent-hover: #c4b5fd;
+            --secondary: #60a5fa;
+            --grid-color: rgba(255, 255, 255, 0.03);
+            --blob-1: #7e22ce;
+            --blob-2: #1d4ed8;
+            --blob-3: #be185d;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', system-ui, sans-serif;
+            font-weight: 400;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            min-height: 100vh;
+            line-height: 1.6;
+            transition: background-color 0.5s ease, color 0.5s ease;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Анимированный красивый фон */
+        .bg-mesh {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            z-index: -2;
+            overflow: hidden;
+        }
+        .blob {
+            position: absolute;
+            filter: blur(90px);
+            opacity: 0.5;
+            border-radius: 50%;
+            animation: float 20s infinite alternate cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .blob-1 { width: 40vw; height: 40vw; background: var(--blob-1); top: -10%; left: -10%; }
+        .blob-2 { width: 50vw; height: 50vw; background: var(--blob-2); bottom: -20%; right: -10%; animation-delay: -5s; }
+        .blob-3 { width: 35vw; height: 35vw; background: var(--blob-3); top: 30%; left: 40%; animation-delay: -10s; }
+
+        @keyframes float {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(10%, 15%) scale(1.2); }
+        }
+
+        .bg-grid {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            z-index: -1;
+            background-image: 
+                linear-gradient(to right, var(--grid-color) 1px, transparent 1px),
+                linear-gradient(to bottom, var(--grid-color) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        h1, h2, h3, h4 {
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .glass {
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            box-shadow: var(--glass-shadow);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.5s ease;
+        }
+
+        /* Навигация */
+        header {
+            position: sticky;
+            top: 1rem;
+            z-index: 100;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 24px;
+            margin: 1rem auto 3rem auto;
+            max-width: 1100px;
+            width: 95%;
+        }
+
+        .logo {
+            font-size: 2.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            background: linear-gradient(135deg, var(--accent), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            transition: transform 0.3s;
+        }
+        .logo:hover { transform: scale(1.1) rotate(5deg); }
+
+        nav {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            color: var(--text-color);
+            cursor: pointer;
+            padding: 0.6rem 1.2rem;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        nav a:hover { background: rgba(139, 92, 246, 0.1); color: var(--accent); }
+        nav a.active { background: var(--accent); color: #fff; box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4); }
+
+        /* Основной контент */
+        main {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 1rem 5rem 1rem;
+        }
+
+        .page { display: none; animation: fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+        .page.active { display: block; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px) scale(0.98); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .hero {
+            text-align: center;
+            padding: 5rem 2rem;
+            margin-bottom: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero h1 { font-size: 3rem; line-height: 1.2; margin-bottom: 1.5rem; }
+        .hero p { font-size: 1.2rem; color: var(--text-muted); max-width: 600px; margin: 0 auto 2rem auto; }
+
+        .btn {
+            background: linear-gradient(135deg, var(--accent), var(--secondary));
+            color: #fff;
+            border: none;
+            padding: 0.8rem 1.8rem;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: 500;
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin: 0.5rem;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(139, 92, 246, 0.4);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--text-color);
+            border: 2px solid var(--glass-border);
+            box-shadow: none;
+        }
+
+        .btn-outline:hover {
+            background: rgba(139, 92, 246, 0.05);
+            border-color: var(--accent);
+            color: var(--accent);
+            box-shadow: none;
+        }
+
+        /* Bento Grid */
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .card {
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .card:hover { transform: translateY(-5px); border-color: rgba(139, 92, 246, 0.4); }
+        .card h3 { color: var(--accent); display: flex; align-items: center; gap: 0.5rem; }
+
+        /* Тренажёр и Задания */
+        .task-card {
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .task-input {
+            width: 100%;
+            max-width: 300px;
+            padding: 1rem;
+            margin: 1rem 0;
+            border: 2px solid var(--glass-border);
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.2);
+            color: var(--text-color);
+            font-size: 1.1rem;
+            outline: none;
+            transition: all 0.3s;
+        }
+        
+        [data-theme="dark"] .task-input { background: rgba(0, 0, 0, 0.2); }
+        .task-input:focus { border-color: var(--accent); background: var(--glass-bg); }
+
+        .result { margin-top: 0.5rem; font-weight: 500; min-height: 1.5rem; }
+        .success { color: var(--success); }
+        .error { color: var(--error); }
+        
+        .solution-box {
+            margin-top: 1rem;
+            padding: 1.5rem;
+            background: rgba(139, 92, 246, 0.05);
+            border-left: 4px solid var(--accent);
+            border-radius: 0 12px 12px 0;
+            display: none;
+            color: var(--text-muted);
+        }
+
+        /* Таблицы */
+        .modern-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            border-radius: 12px;
+            overflow: hidden;
+            background: rgba(255, 255, 255, 0.1);
+        }
+        .modern-table th, .modern-table td {
+            padding: 1rem;
+            text-align: center;
+            border-bottom: 1px solid var(--glass-border);
+        }
+        .modern-table th { background: rgba(139, 92, 246, 0.1); color: var(--accent); font-weight: 600; }
+
+        /* Плавающие кнопки */
+        .floating-btns {
+            position: fixed;
+            bottom: 2rem; right: 2rem;
+            display: flex; flex-direction: column; gap: 1rem; z-index: 90;
+        }
+
+        .icon-btn {
+            width: 50px; height: 50px;
+            border-radius: 50%; border: none;
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            color: var(--text-color);
+            font-size: 1.5rem; cursor: pointer;
+            box-shadow: var(--glass-shadow);
+            display: flex; justify-content: center; align-items: center;
+            transition: all 0.3s;
+        }
+        .icon-btn:hover { transform: scale(1.1) rotate(15deg); background: var(--accent); color: #fff; }
+        #scrollTop { display: none; }
+
+        /* Карта SVG */
+        .svg-map { width: 100%; max-width: 400px; height: auto; margin: 1rem auto; display: block; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.1)); }
+        [data-theme="dark"] .svg-map text { fill: #fff; }
+        [data-theme="dark"] .svg-map line, [data-theme="dark"] .svg-map circle { stroke: var(--accent); }
+
+        @media (max-width: 768px) {
+            header { flex-direction: column; padding: 1rem; border-radius: 16px; top: 0.5rem; }
+            nav { justify-content: center; }
+            .hero h1 { font-size: 2.2rem; }
+            .task-input { max-width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-mesh">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+    <div class="bg-grid"></div>
+
+    <header class="glass">
+        <div class="logo" onclick="navigate('home')" title="На главную">&Sigma; ОГЭ</div>
+        <nav>
+            <a onclick="navigate('home')" class="nav-link active" data-target="home">Главная</a>
+            <a onclick="navigate('tasks1-5')" class="nav-link" data-target="tasks1-5">Вариант: 1–5</a>
+            <a onclick="navigate('tasks6-19')" class="nav-link" data-target="tasks6-19">Вариант: 6–19</a>
+            <a onclick="navigate('cheats')" class="nav-link" data-target="cheats">Шпаргалки</a>
+        </nav>
+    </header>
+
+    <main>
+        <section id="home" class="page active">
+            <div class="hero glass">
+                <h1>Математика на максимум</h1>
+                <p>Разбор полноценного варианта (включая практико-ориентированную задачу про деревни) в эстетичном интерактивном формате.</p>
+                <div>
+                    <button class="btn" onclick="navigate('tasks1-5')">Начать практику &rarr;</button>
+                </div>
+            </div>
+            
+            <div class="bento-grid">
+                <div class="card glass" onclick="navigate('tasks1-5')" style="cursor: pointer;">
+                    <h3>📍 Задачи 1-5 (Деревни и маршруты)</h3>
+                    <p>Аня и дедушка едут в магазин. Разбор чтения графов, расчета расстояний по теореме Пифагора и вычисления оптимальной стоимости покупок.</p>
+                </div>
+                <div class="card glass" onclick="navigate('tasks6-19')" style="cursor: pointer;">
+                    <h3>🧮 Задачи 6-19 (Алгебра и Геометрия)</h3>
+                    <p>Интерактивный тренажёр: дроби, корни, уравнения, графики, площади фигур и анализ геометрических утверждений с проверкой ответов.</p>
+                </div>
+                <div class="card glass" onclick="navigate('cheats')" style="cursor: pointer;">
+                    <h3>📚 Шпаргалки</h3>
+                    <p>Краткая выжимка самых нужных формул: ФСУ, свойства степеней, площади фигур и таблица квадратов.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="tasks1-5" class="page">
+            <h2 style="text-align: center; font-size: 2.2rem; margin-bottom: 2rem;">Задания 1–5 (Деревни и маршруты)</h2>
+            
+            <div class="glass" style="padding: 2rem; margin-bottom: 2rem;">
+                <h3>Условие задачи</h3>
+                <p>Аня на летних каникулах приезжает в гости к дедушке в деревню <strong>Антоновка</strong>. В субботу они собираются съездить на велосипедах в село <strong>Доломино</strong> в магазин.</p>
+                <p>Из Антоновки в Доломино можно проехать по прямой лесной дорожке. Есть более длинный путь по шоссе — через деревню <strong>Богданово</strong> до деревни <strong>Ванютино</strong>, где нужно повернуть под прямым углом налево на другое шоссе, ведущее в Доломино. Есть и третий маршрут: в Богданово можно свернуть на прямую грунтовую дорогу, которая идёт мимо пруда прямо в Доломино.</p>
+                <p>По шоссе Аня с дедушкой едут со скоростью <strong>20 км/ч</strong>, а по лесной и грунтовой дорожкам — <strong>15 км/ч</strong>.</p>
+                <p>Расстояние по шоссе от Антоновки до Богданово равно 12 км, от Богданово до Ванютино — 15 км, а от Ванютино до Доломино — 36 км.</p>
+
+                <svg class="svg-map" viewBox="0 0 350 300" xmlns="http://www.w3.org/2000/svg">
+                    <line x1="50" y1="50" x2="50" y2="250" stroke="#8b5cf6" stroke-width="4" />
+                    <line x1="50" y1="250" x2="300" y2="250" stroke="#8b5cf6" stroke-width="4" />
+                    <line x1="50" y1="50" x2="300" y2="250" stroke="#3b82f6" stroke-width="3" stroke-dasharray="6,6" />
+                    <line x1="50" y1="150" x2="300" y2="250" stroke="#3b82f6" stroke-width="3" stroke-dasharray="6,6" />
+                    
+                    <circle cx="50" cy="50" r="8" fill="#fff" stroke="#1e293b" stroke-width="3" />
+                    <text x="25" y="55" font-size="18" font-weight="bold">4</text>
+                    
+                    <circle cx="50" cy="150" r="8" fill="#fff" stroke="#1e293b" stroke-width="3" />
+                    <text x="25" y="155" font-size="18" font-weight="bold">3</text>
+                    
+                    <circle cx="50" cy="250" r="8" fill="#fff" stroke="#1e293b" stroke-width="3" />
+                    <text x="25" y="255" font-size="18" font-weight="bold">2</text>
+                    
+                    <circle cx="300" cy="250" r="8" fill="#fff" stroke="#1e293b" stroke-width="3" />
+                    <text x="315" y="255" font-size="18" font-weight="bold">1</text>
+                </svg>
+            </div>
+
+            <div class="task-card glass">
+                <p><strong>№1.</strong> Пользуясь описанием, определите, какими цифрами на плане обозначены населённые пункты. В ответ запишите последовательность четырёх цифр (Антоновка, Богданово, Ванютино, Доломино) без пробелов.</p>
+                <input type="text" id="ans1" class="task-input" placeholder="Например: 1234">
+                <br>
+                <button class="btn" onclick="checkTask(1, '4321')">Проверить</button>
+                <button class="btn btn-outline" onclick="toggleSolution(1)">Решение</button>
+                <p id="res1" class="result"></p>
+                <div id="sol1" class="solution-box">Ванютино — это точка поворота под прямым углом (цифра 2). Антоновка (откуда выехали) — начало длинного шоссе (цифра 4). Богданово — между ними (цифра 3). Доломино — конец второго шоссе (цифра 1). Ответ: 4321.</div>
+            </div>
+
+            <div class="task-card glass">
+                <p><strong>№2.</strong> Сколько километров проедут Аня с дедушкой, если они поедут по шоссе через Ванютино?</p>
+                <input type="text" id="ans2" class="task-input" placeholder="Ответ...">
+                <br>
+                <button class="btn" onclick="checkTask(2, '63')">Проверить</button>
+                <button class="btn btn-outline" onclick="toggleSolution(2)">Решение</button>
+                <p id="res2" class="result"></p>
+                <div id="sol2" class="solution-box">Маршрут: Антоновка(4) &rarr; Богданово(3) &rarr; Ванютино(2) &rarr; Доломино(1).<br>S = 12 + 15 + 36 = 63 км.</div>
+            </div>
+
+            <div class="task-card glass">
+                <p><strong>№3.</strong> Найдите расстояние от деревни Богданово до села Доломино по грунтовой дороге (в километрах).</p>
+                <input type="text" id="ans3" class="task-input" placeholder="Ответ...">
+                <br>
+                <button class="btn" onclick="checkTask(3, '39')">Проверить</button>
+                <button class="btn btn-outline" onclick="toggleSolution(3)">Решение</button>
+                <p id="res3" class="result"></p>
+                <div id="sol3" class="solution-box">Треугольник 3-2-1 — прямоугольный. Катеты: 2-3 (Ванютино-Богданово) = 15 км. 2-1 (Ванютино-Доломино) = 36 км.<br>По теореме Пифагора: с&sup2; = 15&sup2; + 36&sup2; = 225 + 1296 = 1521.<br>с = &radic;1521 = 39 км.</div>
+            </div>
+
+            <div class="task-card glass">
+                <p><strong>№4.</strong> Сколько минут затратят на дорогу Аня с дедушкой, если поедут через Ванютино?</p>
+                <input type="text" id="ans4" class="task-input" placeholder="Ответ...">
+                <br>
+                <button class="btn" onclick="checkTask(4, '189')">Проверить</button>
+                <button class="btn btn-outline" onclick="toggleSolution(4)">Решение</button>
+                <p id="res4" class="result"></p>
+                <div id="sol4" class="solution-box">Расстояние по шоссе (задача 2) = 63 км. Скорость по шоссе = 20 км/ч.<br>Время t = S / V = 63 / 20 = 3,15 часа.<br>Переводим в минуты: 3,15 &times; 60 = 189 минут.</div>
+            </div>
+
+            <div class="task-card glass">
+                <p><strong>№5.</strong> В таблице указана стоимость некоторых продуктов в четырех магазинах. Аня с дедушкой хотят купить 2 батона хлеба, 1 кг сыра и 3 л молока. В каком магазине такой набор будет стоить дешевле всего? В ответ запишите стоимость данного набора (в рублях).</p>
+                
+                <table class="modern-table">
+                    <tr><th>Продукт</th><th>Антоновка</th><th>Богданово</th><th>Ванютино</th><th>Доломино</th></tr>
+                    <tr><td>Хлеб (батон)</td><td>30</td><td>25</td><td>29</td><td>28</td></tr>
+                    <tr><td>Сыр (1 кг)</td><td>300</td><td>320</td><td>290</td><td>280</td></tr>
+                    <tr><td>Молоко (1 л)</td><td>60</td><td>65</td><td>70</td><td>75</td></tr>
+                </table>
+
+                <input type="text" id="ans5" class="task-input" placeholder="Ответ...">
+                <br>
+                <button class="btn" onclick="checkTask(5, '540')">Проверить</button>
+                <button class="btn btn-outline" onclick="toggleSolution(5)">Решение</button>
+                <p id="res5" class="result"></p>
+                <div id="sol5" class="solution-box">
+                    Считаем набор (2 хлеба + 1 сыр + 3 молока):<br>
+                    Антоновка: 2&times;30 + 300 + 3&times;60 = 60 + 300 + 180 = <strong>540 руб.</strong><br>
+                    Богданово: 2&times;25 + 320 + 3&times;65 = 50 + 320 + 195 = 565 руб.<br>
+                    Ванютино: 2&times;29 + 290 + 3&times;70 = 58 + 290 + 210 = 558 руб.<br>
+                    Доломино: 2&times;28 + 280 + 3&times;75 = 56 + 280 + 225 = 561 руб.<br>
+                    Минимальная стоимость: 540.
+                </div>
+            </div>
+        </section>
+
+        <section id="tasks6-19" class="page">
+            <h2 style="text-align: center; font-size: 2.2rem; margin-bottom: 2rem;">Задания 6–19 (Алгебра и Геометрия)</h2>
+            <div class="glass" style="padding: 1rem 2rem; margin-bottom: 2rem; text-align: center;">
+                <p>Решайте задачи и вводите ответы. Если ответом является дробь, запишите её в виде конечной десятичной дроби (например, 2.5 или 2,5).</p>
+                <button class="btn btn-outline" onclick="resetAll('tasks6-19')">Сбросить ответы этого раздела</button>
+            </div>
+
+            <div class="task-card glass">
+                <p><strong>№6. Вычисления.</strong> Найдите значение выражения: <code>(5/6 - 3/14) &times; 21</code></p>
+                <input type="text" id="ans6" class="task-input" placeholder="Ответ...">
+                <br><button class="btn" onclick="checkTask(6, '13')">Проверить</button> <button class="btn btn-outline" onclick="toggleSolution(6)">Решение</button>
+                <p id="res6" class="result"></p>
+                <div id="sol6" class="solution-box">Общий знаменатель для 6 и 14 — это 42. Дополнительные множители: 7 и 3.<br> (35/42 - 9/42) &times; 21 = (26/42) &times; 21 = 26 / 2 = 13.</div>
+            </div>
+
+            <div class="task-card glass">
+                <p><strong>№7. Координатная прямая.</strong> Какому целому числу наиболее близко значение <code>&radic;55</code>?</p>
+                <input type="text" id="ans7" class="task-input" placeholder="Ответ...">
+                <br><button class="btn" onclick="checkTask(7, '7')">Проверить</button> <button class="btn btn-outline" onclick="toggleSolution(7)">Решение</button>
+                <p id="res7" class="result"></p>
+                <div id="sol7" class="solution-box">&radic;55 находится между &radic;49 (это 7) и &radic;64 (это 8). Так как 55 ближе к 49, чем к 64, число ближе к 7.</div>
+            </div>
+
+            <div class="task-card glass">
+                <p><strong>№8. Степени.</strong> Найдите значение выражения <code>(a<sup>7</sup> &times; a<sup>4</sup>) / a<sup>9</sup></code> при <code>a = 5</code>.</p>
+                <input type="text" id="ans8" class="task-input" placeholder="Ответ...">
+                <br><button class="btn" onclick="checkTask(8, '25')">Проверить</button> <button class="btn btn-outline" onclick="toggleSolution(8)">Решение</button>
+                <p id="res8" class="result"></p>
+                <div id="sol8" class="solution-box">При умножении показатели складываются, при делении — вычитаются: 7 + 4 - 9 = 2. Получаем a&sup2;. При a=5: 5&sup2; = 25.</div>
+            </div>
+
+            <div class="task-card glass">
+                <p><strong>№9. Уравнения.</strong> Решите уравнение <code>x&sup2; - 7x + 10 = 0</code>. Если корней несколько, запишите в ответ <strong>больший</strong> из них.</p>
+                <input type="text" id="ans9" class="task-input" placeholder="Ответ...">
+                <br><button class="btn" onclick="checkTask(9, '5')">Проверить</button> <button class="btn btn-outline" onclick="toggleSolution(9)">Решение</button>
+                <p id="res9" class="result"></p>
+                <div id="sol9" class="solution-box">D = (-7)&sup2; - 4&times;1&times;10 = 49 - 40 = 9.<br>x&sub1; = (7 + 3)/2 = 5.<br>x&sub2; = (7 - 3)/2 = 2.<br>Больший корень: 5.</div>
+            </div>
+
+            <div class="task-card glass">
+                <p><strong>№10. Вероятность.</strong> В партии из 20 фонариков 4 бракованных. Какова вероятность того, что случайно выбранный фонарик окажется исправным?</p>
+                <input type="text" id="ans10" class="task-input" placeholder="Ответ...">
+                <br><button class="btn" onclick="checkTask(10, '0.8')">Проверить</button> <button class="btn btn-outline" onclick="toggleSolution(10)">Решение</button>
+                <p id="res10" class="result"></p>
+                <div id="sol10" class="solution-box">Всего исходов n = 20. Исправных m = 20 - 4 = 16. Вероятность P = m / n = 16 / 20 = 8 / 10 = 0,8.</div>
+            </div>
+
+            <div class="task-card glass">
+                <p><strong>№11. Графики.</strong> Установите соответствие между графиками функций и формулами: <br>
+                Графики: А) Ветви параболы вверх. Б) Ветви параболы вниз. В) Гипербола.<br>
+                Формулы: 1) <code>y = -x&sup2;</code>; 2) <code>y = 2/x</code>; 3) <code>y = x&sup2; - 2</code>.<br>
+                В ответ запишите последовательность цифр для АБВ без пробелов.</p>
+                <input type="text" id="ans11" class="task-input" placeholder="Например: 123">
+                <br><button class="btn" onclick="checkTask(11, '312')">Проверить</button> <button class="btn btn-outline" onclick="toggleSolution(11)">Решение</button>
+                <p id="res11" class="result"></p>
+                <div id="sol11" class="solution-box">А (парабола вверх) &rarr; коэффициент a > 0 &rarr; формула 3.<br>Б (парабола вниз) &rarr; коэффициент a &lt; 0 &rarr; формула 1.<br>В (гипербола) &rarr; деление на x &rarr; формула 2. Ответ: 312.</div>
+            </div>
+
+            <div class="task-card glass">
+                <p><strong>№12. Формулы.</strong> Площадь треугольника вычисляется по формуле <code>S = (a &times; h) / 2</code>. Найдите <code>h</code>, если S = 20, a = 8.</p>
+                <input type="text" id="ans12" class="task-input" placeholder="Ответ...">
+                <br><button class="btn" onclick="checkTask(12, '5')">Проверить</button> <button class="btn btn-outline" onclick="toggleSolution(12)">Решение</button>
+                <p id="res12" class="result"></p>
+                <div id="sol12" class="solution-box">Подставим известные значения: 20 = (8 &times; h) / 2.<br>20 = 4 &times; h.<br>h = 20 / 4 = 5.</div>
+            </div>
+
+            <div class="task-card glass">
+                <p><strong>№13. Неравенства.</strong> Решите неравенство <code>5x - 2 > 3x + 4</code>. Какое число является наименьшим целым решением?</p>
+                <input type="text" id="ans13" class="task-input" placeholder="Ответ...">
+                <br><button class="btn" onclick="checkTask(13, '4')">Проверить</button> <button class="btn btn-outline" onclick="toggleSolution(13)">Решение</button>
+                <p id="res13" class="result"></p>
+                <div id="sol13" class="solution-box">Переносим x влево, числа вправо: 5x - 3x > 4 + 2.<br>2x > 6 &rarr; x > 3.<br>Наименьшее целое число, строго большее 3, это 4.</div>
+            </div>
+
+            <div class="task-card glass">
+                <p><strong>№14. Прогрессии.</strong> В амфитеатре 10 рядов. В первом ряду 15 мест, а в каждом следующем на 2 места больше, чем в предыдущем. Сколько мест в 5-м ряду?</p>
+                <input type="text" id="ans14" class="task-input" placeholder="Ответ...">
+                <br><button class="btn" onclick="checkTask(14, '23')">Проверить</button> <button class="btn btn-outline" onclick="toggleSolution(14)">Решение</button>
+                <p id="res14" class="result"></p>
+                <div id="sol14" class="solution-box">Это арифметическая прогрессия: a&sub1; = 15, d = 2. Формула: a&sub5; = a&sub1; + 4d.<br>a&sub5; = 15 + 4&times;2 = 15 + 8 = 23.</div>
+            </div>
+
+            <div class="task-card glass">
+                <p><strong>№15. Треугольники.</strong> В прямоугольном треугольнике катеты равны 6 и 8. Найдите гипотенузу.</p>
+                <input type="text" id="ans15" class="task-input" placeholder="Ответ...">
+                <br><button class="btn" onclick="checkTask(15, '10')">Проверить</button> <button class="btn btn-outline" onclick="toggleSolution(15)">Решение</button>
+                <p id="res15" class="result"></p>
+                <div id="sol15" class="solution-box">По теореме Пифагора: c&sup2; = a&sup2; + b&sup2; = 6&sup2; + 8&sup2; = 36 + 64 = 100. c = &radic;100 = 10.</div>
+            </div>
+
+            <div class="task-card glass">
+                <p><strong>№16. Окружности.</strong> Радиус вписанной в квадрат окружности равен 4. Найдите периметр этого квадрата.</p>
+                <input type="text" id="ans16" class="task-input" placeholder="Ответ...">
+                <br><button class="btn" onclick="checkTask(16, '32')">Проверить</button> <button class="btn btn-outline" onclick="toggleSolution(16)">Решение</button>
+                <p id="res16" class="result"></p>
+                <div id="sol16" class="solution-box">Сторона квадрата равна диаметру вписанной окружности: a = 2R = 2&times;4 = 8.<br>Периметр P = 4a = 4&times;8 = 32.</div>
+            </div>
+
+            <div class="task-card glass">
+                <p><strong>№17. Площади.</strong> Найдите площадь ромба, если его диагонали равны 10 и 14.</p>
+                <input type="text" id="ans17" class="task-input" placeholder="Ответ...">
+                <br><button class="btn" onclick="checkTask(17, '70')">Проверить</button> <button class="btn btn-outline" onclick="toggleSolution(17)">Решение</button>
+                <p id="res17" class="result"></p>
+                <div id="sol17" class="solution-box">Площадь ромба равна половине произведения его диагоналей: S = (10 &times; 14) / 2 = 140 / 2 = 70.</div>
+            </div>
+
+            <div class="task-card glass">
+                <p><strong>№18. Фигуры на клетке.</strong> На клетчатой бумаге изображена трапеция с основаниями 4 клетки и 10 клеток. Найдите длину её средней линии.</p>
+                <input type="text" id="ans18" class="task-input" placeholder="Ответ...">
+                <br><button class="btn" onclick="checkTask(18, '7')">Проверить</button> <button class="btn btn-outline" onclick="toggleSolution(18)">Решение</button>
+                <p id="res18" class="result"></p>
+                <div id="sol18" class="solution-box">Средняя линия трапеции равна полусумме оснований: (4 + 10) / 2 = 14 / 2 = 7.</div>
+            </div>
+
+            <div class="task-card glass">
+                <p><strong>№19. Анализ утверждений.</strong> Какое из следующих утверждений верно? В ответ запишите номер верного утверждения.<br>
+                1) Смежные углы всегда равны.<br>
+                2) Сумма углов любого треугольника равна 180 градусам.<br>
+                3) Любой прямоугольник является квадратом.</p>
+                <input type="text" id="ans19" class="task-input" placeholder="Ответ...">
+                <br><button class="btn" onclick="checkTask(19, '2')">Проверить</button> <button class="btn btn-outline" onclick="toggleSolution(19)">Решение</button>
+                <p id="res19" class="result"></p>
+                <div id="sol19" class="solution-box">1 - Неверно (их сумма 180, но они не всегда равны).<br>2 - Верно (базовая теорема).<br>3 - Неверно (квадрат — это прямоугольник с равными сторонами, но обратное неверно).</div>
+            </div>
+        </section>
+
+        <section id="cheats" class="page">
+            <h2 style="text-align: center; font-size: 2.2rem; margin-bottom: 2rem;">Самое важное перед экзаменом</h2>
+            <div class="bento-grid">
+                <div class="card glass">
+                    <h3>Квадраты и степени</h3>
+                    <ul style="margin-top: 1rem; padding-left: 1.5rem;">
+                        <li>11&sup2; = 121, 12&sup2; = 144, 13&sup2; = 169</li>
+                        <li>14&sup2; = 196, 15&sup2; = 225, 25&sup2; = 625</li>
+                        <li>a<sup>n</sup> &times; a<sup>m</sup> = a<sup>n+m</sup></li>
+                        <li>(a<sup>n</sup>)<sup>m</sup> = a<sup>n&times;m</sup></li>
+                        <li>a<sup>0</sup> = 1 (при a &ne; 0)</li>
+                    </ul>
+                </div>
+                <div class="card glass">
+                    <h3>Формулы сокращенного умножения</h3>
+                    <ul style="margin-top: 1rem; padding-left: 1.5rem;">
+                        <li>(a + b)&sup2; = a&sup2; + 2ab + b&sup2;</li>
+                        <li>(a - b)&sup2; = a&sup2; - 2ab + b&sup2;</li>
+                        <li>a&sup2; - b&sup2; = (a - b)(a + b)</li>
+                    </ul>
+                </div>
+                <div class="card glass">
+                    <h3>Геометрия (Площади)</h3>
+                    <ul style="margin-top: 1rem; padding-left: 1.5rem;">
+                        <li>Треугольник: S = &frac12; &times; a &times; h</li>
+                        <li>Ромб: S = &frac12; &times; d&sub1; &times; d&sub2;</li>
+                        <li>Трапеция: S = &frac12; &times; (a + b) &times; h</li>
+                        <li>Круг: S = &pi;R&sup2;</li>
+                    </ul>
+                </div>
+                <div class="card glass">
+                    <h3>Теорема Пифагора и Углы</h3>
+                    <ul style="margin-top: 1rem; padding-left: 1.5rem;">
+                        <li>c&sup2; = a&sup2; + b&sup2; (c — гипотенуза)</li>
+                        <li>Сумма углов треугольника = 180&deg;</li>
+                        <li>Сумма смежных углов = 180&deg;</li>
+                        <li>Вертикальные углы равны</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div class="floating-btns">
+        <button class="icon-btn" onclick="toggleTheme()" title="Переключить тему">&#9728;</button>
+        <button class="icon-btn" id="scrollTop" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" title="Наверх">&uarr;</button>
+    </div>
+
+    <script>
+        // SPA Навигация
+        function navigate(pageId) {
+            document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+            document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
+            
+            document.getElementById(pageId).classList.add('active');
+            const activeLink = document.querySelector(`.nav-link[data-target="${pageId}"]`);
+            if(activeLink) activeLink.classList.add('active');
+            
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+
+        // Проверка ответов
+        function checkTask(id, correctAnswer) {
+            const input = document.getElementById('ans' + id);
+            const res = document.getElementById('res' + id);
+            
+            // Убираем пробелы и меняем запятую на точку для удобства
+            let val = input.value.trim().replace(',', '.');
+
+            if (val === '') {
+                res.textContent = "Введите ответ.";
+                res.className = "result error";
+                return;
+            }
+
+            if (val === String(correctAnswer)) {
+                res.textContent = "Верно! 🎉";
+                res.className = "result success";
+                input.style.borderColor = "var(--success)";
+                input.style.boxShadow = "0 0 10px rgba(16, 185, 129, 0.3)";
+            } else {
+                res.textContent = "Неверно. Попробуйте еще раз.";
+                res.className = "result error";
+                input.style.borderColor = "var(--error)";
+                input.style.boxShadow = "0 0 10px rgba(239, 68, 68, 0.3)";
+            }
+        }
+
+        // Показать/Скрыть решение
+        function toggleSolution(id) {
+            const sol = document.getElementById('sol' + id);
+            if(sol.style.display === 'block') {
+                sol.style.display = 'none';
+            } else {
+                sol.style.display = 'block';
+                sol.style.animation = 'fadeIn 0.3s ease';
+            }
+        }
+
+        // Сброс всех инпутов в секции
+        function resetAll(sectionId) {
+            const section = document.getElementById(sectionId);
+            section.querySelectorAll('.task-input').forEach(input => {
+                input.value = '';
+                input.style.borderColor = 'var(--glass-border)';
+                input.style.boxShadow = 'none';
+            });
+            section.querySelectorAll('.result').forEach(res => res.textContent = '');
+            section.querySelectorAll('.solution-box').forEach(sol => sol.style.display = 'none');
+        }
+
+        // Темная/Светлая тема
+        function toggleTheme() {
+            const body = document.body;
+            const btn = document.querySelector('.icon-btn');
+            if (body.getAttribute('data-theme') === 'dark') {
+                body.removeAttribute('data-theme');
+                btn.innerHTML = '&#9728;';
+            } else {
+                body.setAttribute('data-theme', 'dark');
+                btn.innerHTML = '&#9789;';
+            }
+        }
+
+        // Кнопка Наверх
+        window.addEventListener('scroll', () => {
+            const btn = document.getElementById('scrollTop');
+            if (window.scrollY > 400) {
+                btn.style.display = 'flex';
+                btn.style.animation = 'fadeIn 0.3s';
+            } else {
+                btn.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
